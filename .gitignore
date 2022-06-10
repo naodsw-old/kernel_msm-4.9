@@ -123,3 +123,12 @@ kernel/configs/android-*.cfg
 #Ignoring Android.bp link file
 #
 Android.bp
+
+#
+# Build environment
+#
+build.sh
+clang/
+gcc/
+gcc32/
+out/
