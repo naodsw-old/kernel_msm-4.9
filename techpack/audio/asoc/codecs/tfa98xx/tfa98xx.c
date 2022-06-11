@@ -2616,11 +2616,7 @@ static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
 
 #ifdef VENDOR_EDIT
 /*Kaiqin.Huang@RM.MM.AudioDriver.SmartPA, 2019/10/03, Add for sharing software image*/
-    if (prj == 0) {
-        sprintf(fw_name_project, "tfa98xx.cnt");
-    } else {
-        sprintf(fw_name_project, "tfa98xx_%d.cnt", prj);
-    }
+    sprintf(fw_name_project, "tfa98xx.cnt");
 
     pr_warning("%s, %d, fw_name_project = %s\n", __func__, __LINE__, fw_name_project);
     return request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,

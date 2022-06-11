@@ -2314,7 +2314,7 @@ static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
 
 	#ifdef VENDOR_EDIT
 	//Nan.Zhong@PSW.MM.AudioDriver.HAL, 2019/06/11, Add for multi-project baseline
-	sprintf(fw_name, "tfa98xx_%d.cnt", get_project());
+	sprintf(fw_name, "tfa98xx.cnt");
 	pr_info("loaded cnt: %s\n", fw_name);
 	#endif /* VENDOR_EDIT */
 
