@@ -19,12 +19,6 @@ config OPPO_COMMON_SOFT
 	Maybe this value is from CDT or dynamic identify by hardware
 	id.
 
-config OPPO_DEVICE_IFNO
-  tristate "config oppo devinfo"
-  select OPPO_ARCH_FILE
-  help
-	define this config to compile devinfo.c for device register
-
 config OPLUS_FEATURE_DETAILHEAD
   tristate "config detail kmsg"
     help
