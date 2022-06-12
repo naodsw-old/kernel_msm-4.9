@@ -2481,20 +2481,8 @@ static int fastrpc_munmap_on_dsp_rh(struct fastrpc_file *fl, uint64_t phys,
 
 		VERIFY(err, 0 == (err = fastrpc_internal_invoke(fl,
 				FASTRPC_MODE_PARALLEL, 1, &ioctl)));
-		if (err == AEE_EUNSUPPORTED) {
-			remote_arg_t ra[1];
-
-			pr_warn("ADSPRPC:Failed to get security key with updated remote call, falling back to older method");
-			ra[0].buf.pv = (void *)&routargs;
-			ra[0].buf.len = sizeof(routargs);
-			ioctl.inv.sc = REMOTE_SCALARS_MAKE(7, 0, 1);
-			ioctl.inv.pra = ra;
-			VERIFY(err, 0 == (err = fastrpc_internal_invoke(fl,
-				FASTRPC_MODE_PARALLEL, 1, &ioctl)));
-		}
 		if (err)
 			goto bail;
-
 		desc.args[0] = TZ_PIL_AUTH_QDSP6_PROC;
 		desc.args[1] = phys;
 		desc.args[2] = size;
@@ -3498,6 +3486,13 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
 		return err;
 	snprintf(strpid, PID_SIZE, "%d", current->pid);
 	buf_size = strlen(current->comm) + strlen("_") + strlen(strpid) + 1;
+	/* yanghao@PSW.Kernel.Stability kasan detect the buf_size < snprintf return size caused 
+	 * the out of bounds. here just alloc the UL_SIZE 2019-01-05
+	 */
+#ifdef VENDOR_EDIT
+	if (buf_size < UL_SIZE)
+		buf_size = UL_SIZE;
+#endif /*VENDOR_EDIT*/
 	fl->debug_buf = kzalloc(buf_size, GFP_KERNEL);
 	snprintf(fl->debug_buf, UL_SIZE, "%.10s%s%d",
 	current->comm, "_", current->pid);
