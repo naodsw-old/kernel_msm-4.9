@@ -40,6 +40,22 @@
 #define TFA98XX_FLAG_LP_MODES	        (1 << 7)
 #define TFA98XX_FLAG_TDM_DEVICE         (1 << 8)
 
+/*To support tfa9873*/
+#define TFA98XX_FLAG_ADAPT_NOISE_MODE   (1 << 9)
+#ifdef OPLUS_ARCH_EXTENDS
+/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/08/23, Add for multi speaker*/
+#define TFA98XX_FLAG_CHIP_SELECTED      (1 << 16)
+
+//chip select
+#define CHIP_SELECTOR_LEFT	(1)
+#define CHIP_SELECTOR_RIGHT	(2)
+#define CHIP_SELECTOR_STEREO	(3)
+
+//device i2c address
+#define CHIP_LEFT_ADDR		(0x34)
+#define CHIP_RIGHT_ADDR		(0x35)
+#endif /* OPLUS_ARCH_EXTENDS */
+
 #define TFA98XX_NUM_RATES		9
 
 /* DSP init status */
@@ -77,12 +93,20 @@ struct tfa98xx {
 	struct regmap *regmap;
 	struct i2c_client *i2c;
 	struct regulator *vdd;
-	struct snd_soc_codec *codec;
+	struct snd_soc_component *component;
 	struct workqueue_struct *tfa98xx_wq;
 	struct delayed_work init_work;
 	struct delayed_work monitor_work;
 	struct delayed_work interrupt_work;
 	struct delayed_work tapdet_work;
+
+	/*To support tfa9873*/
+	struct delayed_work nmodeupdate_work;
+
+	#ifdef OPLUS_FEATURE_FADE_IN
+	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2020/05/25, Add for volume fadein*/
+	struct delayed_work fadein_work;
+	#endif /* OPLUS_FEATURE_FADE_IN */
 	struct mutex dsp_lock;
 	int dsp_init;
 	int dsp_fw_state;
@@ -119,15 +143,22 @@ struct tfa98xx {
 
 #ifdef CONFIG_DEBUG_FS
 	struct dentry *dbg_dir;
-#endif
+#else
+	struct proc_dir_entry *dbg_dir;
+#endif/*CONFIG_DEBUG_FS*/
 	u8 reg;
 	unsigned int flags;
 	bool set_mtp_cal;
 	uint16_t cal_data;
-	#ifdef VENDOR_EDIT
+	#ifdef OPLUS_ARCH_EXTENDS
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2018/04/20, Add for resource*/
 	struct regulator *tfa98xx_vdd;
-	#endif /* VENDOR_EDIT */
+	#endif /* OPLUS_ARCH_EXTENDS */
+
+	#ifdef OPLUS_FEATURE_FADE_IN
+	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2020/05/25, Add for volume fadein*/
+	bool fadein_enable;
+	#endif /* OPLUS_FEATURE_FADE_IN */
 };
 
 

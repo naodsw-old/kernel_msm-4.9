@@ -6,7 +6,6 @@ else
 	KERNEL_BUILD := 0
 endif
 
-
 ifeq ($(KERNEL_BUILD), 1)
 	# These are configurable via Kconfig for kernel-based builds
 	# Need to explicitly configure for Android-based builds
@@ -26,20 +25,16 @@ ifeq ($(KERNEL_BUILD), 0)
 		INCS    +=  -include $(AUDIO_ROOT)/config/sdm710autoconf.h
 	endif
 	ifeq ($(CONFIG_ARCH_SDM450), y)
-		include $(AUDIO_ROOT)/config/sdm450auto.conf
+		include $(AUDIO_ROOT)/config/sdm710auto.conf
 		export
-		INCS    +=  -include $(AUDIO_ROOT)/config/sdm450autoconf.h
+		INCS    +=  -include $(AUDIO_ROOT)/config/sdm710autoconf.h
 	endif
-	ifeq ($(CONFIG_ARCH_SDM439), y)
-		include $(AUDIO_ROOT)/config/sdm450auto.conf
+	ifeq ($(CONFIG_ARCH_SM6150), y)
+		include $(AUDIO_ROOT)/config/sm6150auto.conf
 		export
-		INCS    +=  -include $(AUDIO_ROOT)/config/sdm450autoconf.h
+		INCS    +=  -include $(AUDIO_ROOT)/config/sm6150autoconf.h
 	endif
-	ifeq ($(CONFIG_ARCH_MSM8917), y)
-		include $(AUDIO_ROOT)/config/sdm450auto.conf
-		export
-		INCS    +=  -include $(AUDIO_ROOT)/config/sdm450autoconf.h
-	endif
+
 endif
 
 # As per target team, build is done as follows:
@@ -69,11 +64,15 @@ COMMON_INC :=	-I$(AUDIO_ROOT)/$(COMMON_DIR)
 ############ tfa98xx ############
 
 # for nxp tfa98xx Codec
-ifdef CONFIG_SND_SOC_TFA9894
+ifdef CONFIG_SND_SOC_TFA98XX
 	TFA98XX_OBJS += tfa_container_v6.o
 	TFA98XX_OBJS += tfa98xx_v6.o
 	TFA98XX_OBJS += tfa_dsp_v6.o
 	TFA98XX_OBJS += tfa_init_v6.o
+#Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/08/06, Add for smartpa power monitor
+ifdef OPLUS_FEATURE_SMARTPA_PM
+	TFA98XX_OBJS += ../smartpa_pm/smartpa_pm.o
+endif
 endif
 
 LINUX_INC +=	-Iinclude/linux
@@ -93,11 +92,6 @@ CDEFINES +=	-DANI_LITTLE_BYTE_ENDIAN \
 		-Wall\
 		-Werror\
 		-D__linux__
-
-#ifdef VENDOR_EDIT
-#Huiqun.Han@PSW.MM.AudioDriver.Codec, 2018/08/17, Add for new speaker
-CDEFINES += -DSPKR_RES_48_75_OHM
-#endif /* VENDOR_EDIT *
 
 KBUILD_CPPFLAGS += $(CDEFINES)
 
@@ -123,7 +117,7 @@ KBUILD_EXTRA_SYMBOLS +=$(OUT)/obj/vendor/qcom/opensource/audio-kernel/soc/Module
 endif
 
 # Module information used by KBuild framework
-obj-$(CONFIG_SND_SOC_TFA9894) += tfa98xx-v6_dlkm.o
+obj-$(CONFIG_SND_SOC_TFA98XX) += tfa98xx-v6_dlkm.o
 tfa98xx-v6_dlkm-y := $(TFA98XX_OBJS)
 
 # inject some build related information

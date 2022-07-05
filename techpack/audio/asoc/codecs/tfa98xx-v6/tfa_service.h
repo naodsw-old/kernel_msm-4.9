@@ -379,6 +379,12 @@ short tfa98xx_get_exttemp_v6(struct tfa_device *tfa);
 enum Tfa98xx_Error tfa98xx_set_volume_level_v6(struct tfa_device *tfa,
 				  unsigned short vol);
 
+#ifdef OPLUS_ARCH_EXTENDS
+/* Yongzhi.Zhang@MM.AudioDriver.SmartPA, 2019/07/17, add for ftm */
+enum Tfa98xx_Error tfa98xx_set_ana_volume_v6(struct tfa_device *tfa, unsigned int vol);
+enum Tfa98xx_Error tfa98xx_get_ana_volume_v6(struct tfa_device *tfa, unsigned int *vol);
+#endif /* OPLUS_ARCH_EXTENDS */
+
 /* set the input channel to use
  * @param channel see Tfa98xx_Channel_t enumeration
  */
@@ -952,7 +958,7 @@ enum Tfa98xx_Error tfaRunSpeakerStartup_v6(struct tfa_device *tfa, int force, in
  * @param tfa the device struct pointer
  */
 enum Tfa98xx_Error tfaRunSpeakerCalibration_v6(struct tfa_device *tfa);
-#ifdef VENDOR_EDIT
+#ifdef OPLUS_ARCH_EXTENDS
 /*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 enum Tfa98xx_Error tfaRunSpeakerCalibration_result_v6(struct tfa_device *tfa, int *result);
 #endif
@@ -1018,6 +1024,9 @@ enum Tfa98xx_Error tfa_status(struct tfa_device *tfa);
  * function overload for flag_mtp_busy
  */
 int tfa_dev_get_mtpb(struct tfa_device *tfa);
+
+/*To support tfa9873*/
+enum Tfa98xx_Error tfaGetFwApiVersion(struct tfa_device *tfa, unsigned char *pFirmwareVersion);
 
 #ifdef __cplusplus
 }

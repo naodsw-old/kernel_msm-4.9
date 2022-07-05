@@ -78,6 +78,8 @@ struct tfa_device_ops {
 	enum Tfa98xx_Error (*set_mute)(struct tfa_device *tfa, int mute); /**< set mute */
 	enum Tfa98xx_Error (*faim_protect)(struct tfa_device *tfa, int state); /**< Protect FAIM from being corrupted  */
 	enum Tfa98xx_Error(*set_osc_powerdown)(struct tfa_device *tfa, int state); /**< Allow to change internal osc. gating settings */
+	/*To support tfa9873*/
+	enum Tfa98xx_Error(*update_lpm)(struct tfa_device *tfa, int state); /**< Allow to change lowpowermode settings */
 };
 
 /**
@@ -144,8 +146,23 @@ struct tfa_device {
 	int convert_dsp32; /**< convert 24 bit DSP messages to 32 bit */
 	int sync_iv_delay; /**< synchronize I/V delay at cold start */
 	int is_probus_device; /**< probus device: device without internal DSP */
+	/*To support tfa9873*/
+	int advance_keys_handling;
+
 	int needs_reset; /**< add the reset trigger for SetAlgoParams and SetMBDrc commands */
 	struct kmem_cache *cachep;	/**< Memory allocator handle */
+
+	/*To support tfa9873*/
+	char fw_itf_ver[4];          /* Firmware ITF version */
+
+	#ifdef OPLUS_ARCH_EXTENDS
+	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
+	u32 min_mohms;
+	u32 max_mohms;
+	#endif /* OPLUS_ARCH_EXTENDS */
+
+	/* 0-left/top, 1-right/bottom, 0xff-default, not initialized */
+	u32 channel;
 };
 
 /**

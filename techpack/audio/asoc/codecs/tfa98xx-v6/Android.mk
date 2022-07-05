@@ -9,9 +9,9 @@ LOCAL_PATH := $(call my-dir)
 # This makefile is only for DLKM
 ifneq ($(findstring vendor,$(LOCAL_PATH)),)
 
-ifneq ($(findstring opensource,$(LOCAL_PATH)),)
+#ifneq ($(findstring opensource,$(LOCAL_PATH)),)
 	AUDIO_BLD_DIR := $(shell pwd)/vendor/qcom/opensource/audio-kernel
-endif # opensource
+#endif # opensource
 
 DLKM_DIR := $(TOP)/device/qcom/common/dlkm
 
