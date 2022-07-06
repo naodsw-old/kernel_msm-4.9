@@ -232,12 +232,12 @@ static struct snd_pcm_hw_constraint_list constraints_12_24 = {
 static  struct dentry *tfa98xx_debugfs;
 #endif
 #define TFA98XX_DEBUG_FS_NAME "ftm_tfa98xx"
-int ftm_mode = 0;
+static int ftm_mode = 0;
 static char ftm_load_file[15] = "load_file_ok";
 static char ftm_clk[9] = "clk_ok";
-char ftm_SpeakerCalibration[17] = "calibration_ok";
+static char ftm_SpeakerCalibration[17] = "calibration_ok";
 static char ftm_path[15] = "open_path_ok";
-char ftm_spk_resistance[24] = "speaker_resistance_ok";
+static char ftm_spk_resistance[24] = "speaker_resistance_ok";
 static char ftm_tfa98xx_flag[5] = "fail";
 #ifndef BOOT_MODE_FACTORY
 #define BOOT_MODE_FACTORY 3
