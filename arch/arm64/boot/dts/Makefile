@@ -14,7 +14,7 @@
 #dts-dirs += marvell
 #dts-dirs += mediatek
 #dts-dirs += nvidia
-#dts-dirs += qcom
+dts-dirs += qcom
 #dts-dirs += renesas
 #dts-dirs += rockchip
 #dts-dirs += socionext
@@ -33,7 +33,6 @@ dts-dirs += 18041
 endif
 
 dts-dirs += 19651
-dts-dirs += 19691
 dts-dirs += 18621
 
 #endif
