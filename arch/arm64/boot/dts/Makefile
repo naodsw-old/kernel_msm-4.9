@@ -1,42 +1,30 @@
-#ifndef VENDOR_EDIT
-#PengNan@BSP.CHG.Basic 2019/03/15 modify for 18097
-#dts-dirs += al
-#dts-dirs += altera
-#dts-dirs += amd
-#dts-dirs += amlogic
-#dts-dirs += apm
-#dts-dirs += arm
-#dts-dirs += broadcom
-#dts-dirs += cavium
-#dts-dirs += exynos
-#dts-dirs += freescale
-#dts-dirs += hisilicon
-#dts-dirs += marvell
-#dts-dirs += mediatek
-#dts-dirs += nvidia
-#dts-dirs += qcom
-#dts-dirs += renesas
-#dts-dirs += rockchip
-#dts-dirs += socionext
-#dts-dirs += sprd
-#dts-dirs += xilinx
-#dts-dirs += lg
-#dts-dirs += zte
-#else
-
-dts-dirs += 18097
-
-ifeq ($(CONFIG_BRAND_SHOW_FLAG), realme)
-dts-dirs += 19601
+ifeq ($(CONFIG_OPPO_ARCH_FILE), y)
+dts-dirs += 19691
 else
-dts-dirs += 18041
+dts-dirs += al
+dts-dirs += altera
+dts-dirs += amd
+dts-dirs += amlogic
+dts-dirs += apm
+dts-dirs += arm
+dts-dirs += broadcom
+dts-dirs += cavium
+dts-dirs += exynos
+dts-dirs += freescale
+dts-dirs += hisilicon
+dts-dirs += marvell
+dts-dirs += mediatek
+dts-dirs += nvidia
+dts-dirs += qcom
+dts-dirs += renesas
+dts-dirs += rockchip
+dts-dirs += socionext
+dts-dirs += sprd
+dts-dirs += xilinx
+dts-dirs += lg
+dts-dirs += zte
 endif
 
-dts-dirs += 19651
-dts-dirs += 19691
-dts-dirs += 18621
-
-#endif
 subdir-y	:= $(dts-dirs)
 
 dtstree		:= $(srctree)/$(src)
